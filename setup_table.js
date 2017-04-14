@@ -8,26 +8,28 @@ const mysql = require('mysql');
 const connection = mysql.createConnection({
     host : 'localhost',
     // socketPath : '/opt/local/var/run/mysql56/mysqld.sock',
-    user : 'hyochan',
+    user : 'root',
     port : '3306',
-    password : 'tltlqlql87!',
-    database : 'dooboo',
+    password : 'your_password',
+    database : 'your_db',
     multipleStatements : true
 });
 
 const
-    emailLeftTable = 'email_left'
+    userTable = 'users'
 ;
 
-connection.query('DROP TABLE IF EXISTS ' + emailLeftTable);
+connection.query('DROP TABLE IF EXISTS ' + userTable);
 
-connection.query('CREATE TABLE ' + emailLeftTable + '(' +
-    '_id INTEGER AUTO_INCREMENT, ' +
-    'email VARCHAR(255) NOT NULL, ' +
+connection.query('CREATE TABLE ' + userTable + '(' +
+    '_id CHAR(36), ' +
+    'email VARCHAR(255) NOT NULL UNIQUE, ' +
+    'pw VARCHAR(255) NOT NULL, ' +
+    'nickname VARCHAR(255), ' + // 한글 1자당 utf8일 떄는 3바이트씩
     'created timestamp, ' +
     'updated timestamp, ' +
-    'primary key(_id), ' +
-    'index (email) ' +
+    'primary key(email),' +
+    'index(_id)' +
     ')'
 );
 
